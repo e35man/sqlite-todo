@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqlite_todo/database/todo_db.dart';
 import 'package:sqlite_todo/model/todo.dart';
 import 'package:sqlite_todo/widget/create_todo_widget.dart';
-// import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 
 class TodosPage extends StatefulWidget{
@@ -50,15 +50,15 @@ class _TodosPageState extends State<TodosPage> {
                 itemCount: todos.length,
                 itemBuilder: (context, index){
                   final todo = todos[index];
-                  // final subtitle = DateFormat('yyyy/MM/dd').format(
-                  //   DateTime.parse(todo.updatedAt ?? todo.createdAt)
-                  // );
+                  final subtitle = DateFormat('yyyy/MM/dd').format(
+                    DateTime.parse(todo.updatedAt ?? todo.createdAt)
+                  );
                   return ListTile(
                     title: Text(todo.title),
-                    // subtitle: Text(subtitle),
+                    subtitle: Text(subtitle),
                     trailing: IconButton(
                       onPressed: () async {
-                        // await todoDB.delete(todo.id);
+                        await todoDB.delete(todo.id);
                         fetchTodos();
                       },
                       icon: const Icon(Icons.delete),
@@ -69,7 +69,8 @@ class _TodosPageState extends State<TodosPage> {
                         builder: (context) => CreateToDoWidget(
                           todo: todo,
                           onSubmit: (title) async {
-                            // await todoDB.update(id:todo.id, title: title);
+                            int count = await todoDB.update(todo.id, todo.title);
+                            debugPrint("changes made: $count");
                             fetchTodos();
                             if(!mounted) return;
                             Navigator.of(context).pop();

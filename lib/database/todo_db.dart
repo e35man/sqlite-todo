@@ -36,7 +36,24 @@ class TodoDB {
     final database = await DatabaseService().database;
     final todo = await database
       .rawQuery('''SELECT * from $tableName WHERE id = ?''', [id]);
-  return Todo.fromSqfliteDatabase(todo.first);
+    return Todo.fromSqfliteDatabase(todo.first);
   }
 
+  Future<int> delete(int id) async {
+    final database = await DatabaseService().database;
+    final int changes = await database.rawDelete('''DELETE from $tableName WHERE id = ?''', [id]);
+    return changes;
+  }
+
+  Future<int> update(int id, String? title) async {
+    try {
+      final database = await DatabaseService().database;
+      int count =await database.rawUpdate('''UPDATE $tableName SET title = ? WHERE id = ?''', [title, id]);
+      print('Update successful');
+      return count;
+    } catch (e) {
+      print('Error updating title: $e');
+    }
+    return 0;
+  }
 }

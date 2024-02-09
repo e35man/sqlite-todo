@@ -1,7 +1,6 @@
 class Todo {
   final int id;
   final String title;
-
   final String createdAt;
   final String? updatedAt;
 

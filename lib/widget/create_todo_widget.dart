@@ -22,7 +22,6 @@ class _CreateToDoWidgetState extends State<CreateToDoWidget> {
   @override
   void initState() {
     super.initState();
-
     controller.text = widget.todo?.title ?? '';
   }
 
