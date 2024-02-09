@@ -45,6 +45,7 @@ class TodoDB {
     return changes;
   }
 
+  //needs debugging
   Future<int> update(int id, String? title) async {
     try {
       final database = await DatabaseService().database;
